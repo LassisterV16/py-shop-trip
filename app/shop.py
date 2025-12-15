@@ -1,6 +1,6 @@
-from __future__ import annotations
 import datetime
 
+from app.customer import Customer
 from app.utils import clean_round
 
 
@@ -21,7 +21,7 @@ class Shop:
             for product, value in product_cart.items()
         }
 
-    def purchase(self, customer: "Customer") -> None:
+    def purchase(self, customer: Customer) -> None:
         product_cost = self.product_cart_cost(customer.product_cart)
         print(
             f"{datetime.datetime.now().strftime('Date: %d/%m/%Y %H:%M:%S')}\n"
