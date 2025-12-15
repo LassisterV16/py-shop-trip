@@ -1,9 +1,7 @@
-from __future__ import annotations
-from typing import TYPE_CHECKING
+import datetime
 
-
-if TYPE_CHECKING:
-    from app.customer import Customer
+from app.customer import Customer
+from app.utils import clean_round
 
 
 class Shop:
@@ -17,17 +15,30 @@ class Shop:
         self.location = location
         self.products = products
 
-    def buy_product(self, customer: Customer) -> int | float:
-        customer.has_bought[self] = []
-        products_cost = 0
-        for product, value in customer.product_cart.items():
-            price = value * self.products[product]
-            products_cost += price
-            cost_of_product = int(price) if price % 1 == 0 else price
-            customer.has_bought[self].append(
-                f"{value} {product}s for {cost_of_product} dollars"
-            )
-        customer.has_bought[self].append(
-            f"Total cost is {products_cost} dollars"
+    def product_cart_cost(self, product_cart: dict) -> dict:
+        milk_cost = clean_round(
+            product_cart["milk"] * self.products["milk"]
         )
-        return products_cost
+        bread_cost = clean_round(
+            product_cart["bread"] * self.products["bread"]
+        )
+        butter_cost = clean_round(
+            product_cart["butter"] * self.products["butter"]
+        )
+        return {"milk": milk_cost, "bread": bread_cost, "butter": butter_cost}
+
+    def purchase(self, customer: Customer) -> None:
+        product_cost = self.product_cart_cost(customer.product_cart)
+        print(
+            f"{datetime.datetime.now().strftime("Date: %d/%m/%Y %H:%M:%S")}\n"
+            f"Thanks, {customer.name}, for your purchase!\n"
+            "You have bought:\n"
+            f"{customer.product_cart["milk"]} milks for "
+            f"{product_cost["milk"]} dollars\n"
+            f"{customer.product_cart["bread"]} breads for "
+            f"{product_cost["bread"]} dollars\n"
+            f"{customer.product_cart["butter"]} butters for "
+            f"{product_cost["butter"]} dollars\n"
+            f"Total cost is {sum(product_cost.values())} dollars\n"
+            "See you again!\n"
+        )
