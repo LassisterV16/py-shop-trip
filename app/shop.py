@@ -1,3 +1,4 @@
+from __future__ import annotations
 import datetime
 
 from app.utils import clean_round
@@ -23,7 +24,7 @@ class Shop:
     def purchase(self, customer: "Customer") -> None:
         product_cost = self.product_cart_cost(customer.product_cart)
         print(
-            f"{datetime.datetime.now().strftime("Date: %d/%m/%Y %H:%M:%S")}\n"
+            f"{datetime.datetime.now().strftime('Date: %d/%m/%Y %H:%M:%S')}\n"
             f"Thanks, {customer.name}, for your purchase!\n"
             "You have bought:"
         )
