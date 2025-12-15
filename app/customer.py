@@ -1,4 +1,5 @@
 from app.car import Car
+from app.utils import clean_round
 
 
 class Customer:
@@ -42,12 +43,14 @@ class Customer:
                 cheapest_trip["total_cost"] = total_cost
 
         if self.money >= cheapest_trip["total_cost"] and cheapest_trip["shop"]:
-            print(f'{self.name} rides to {cheapest_trip["shop"].name}\n')
+            print(f"{self.name} rides to {cheapest_trip["shop"].name}\n")
+            home_location, self.location = self.location, shop.location
             cheapest_trip["shop"].purchase(self)
             self.money -= cheapest_trip["total_cost"]
+            self.location = home_location
             print(
                 f"{self.name} rides home\n"
-                f"{self.name} now has {self.money} dollars\n"
+                f"{self.name} now has {clean_round(self.money)} dollars\n"
             )
         else:
             print(

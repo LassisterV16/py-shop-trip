@@ -10,10 +10,23 @@ def shop_trip() -> None:
         config_info = json.load(config)
         Car.FUEL_PRICE = config_info["FUEL_PRICE"]
         customers = [
-            Customer(*customer.values())
+            Customer(
+                name=customer["name"],
+                product_cart=customer["product_cart"],
+                location=customer["location"],
+                money=customer["money"],
+                car=customer["car"]
+            )
             for customer in config_info["customers"]
         ]
-        shops = [Shop(*shop.values()) for shop in config_info["shops"]]
+        shops = [
+            Shop(
+                name=shop["name"],
+                location=shop["location"],
+                products=shop["products"]
+            )
+            for shop in config_info["shops"]
+        ]
 
         for customer in customers:
             customer.store_selection(shops)
