@@ -44,7 +44,7 @@ class Customer:
 
         if self.money >= cheapest_trip["total_cost"] and cheapest_trip["shop"]:
             print(f"{self.name} rides to {cheapest_trip['shop'].name}\n")
-            home_location = self.location,
+            home_location = self.location
             self.location = cheapest_trip["shop"].location
             cheapest_trip["shop"].purchase(self)
             self.money -= cheapest_trip["total_cost"]
